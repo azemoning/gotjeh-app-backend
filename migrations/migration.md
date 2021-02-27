@@ -1,0 +1,1 @@
+nambahin file markdown biar folder migrations bisa di push ke repo
