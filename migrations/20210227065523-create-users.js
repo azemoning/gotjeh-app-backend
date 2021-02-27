@@ -19,12 +19,12 @@ module.exports = {
         defaultValue: "picture.jpg",
       },
       email: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING,
         unique: true,
         allowNull: false,
       },
       password: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       createdAt: {
