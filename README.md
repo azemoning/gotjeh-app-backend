@@ -2,10 +2,7 @@
 
 ## Gotjeh Project
 
-Where jobs find you!
-
-Bored? Need Money? Need Some New Set of Skills?
-Don’t Worry We at Gotjeh, Got You!
+A website where the user can find the desired freelance job, if the user feels his skills are lacking, he can follow the course that we have provided by our website.
 
 ## Prerequisite
 
@@ -50,7 +47,17 @@ Seed data
 sequelize db:seed:all
 ```
 
-### Dependencies
+## GIT Workflow
+
+- Each code repository has 3 main branches that must be protected and can only be pushed directly by the maintainer, the 3 branches are master, develop, production
+- Change default branch from code repository to develop
+- Each feature created must use a special branch. branch name for a feature has format feature/{feature-name}
+- Each feature has a flow : feature/{feature-name} MR → develop MR → production MR → master
+- Team Role:
+- Maintainer: for students who as tech leads (can be appointed fasil or student voting)
+- Developer: for other students"
+
+## Dependencies
 
 - bcrypt
 - dotenv
