@@ -68,3 +68,7 @@ sequelize db:seed:all
 - passport-jwt
 - pg
 - sequelize
+
+## API Specification
+
+See [API Specification](api-spec/README.md) for further details.
