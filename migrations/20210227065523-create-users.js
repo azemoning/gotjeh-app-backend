@@ -18,6 +18,11 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: "picture.jpg",
       },
+      role: {
+        type: Sequelize.ENUM('user', 'admin'),
+        defaultValue: 'user',
+        allowNull: false,
+      },
       email: {
         type: Sequelize.STRING,
         unique: true,
