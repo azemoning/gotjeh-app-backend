@@ -9,11 +9,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", require("./routers/indexRoute"));
-app.use("/auth", require("./routers/authRoute"));
-app.use("/user", require("./routers/userRoute"));
-app.use("/jobs", require("./routers/jobsRoute"));
-app.use("/subscriptions", require("./routers/subscriptionsRoute"));
-app.use("/categories", require("./routers/categoriesRoute"));
+app.use("/api/auth", require("./routers/authRoute"));
+app.use("/api/user", require("./routers/userRoute"));
+app.use("/api/jobs", require("./routers/jobsRoute"));
+app.use("/api/subscriptions", require("./routers/subscriptionsRoute"));
+app.use("/api/categories", require("./routers/categoriesRoute"));
 
 app.use(function (error, req, res, next) {
   res.send(error);
