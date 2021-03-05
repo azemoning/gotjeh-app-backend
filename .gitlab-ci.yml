@@ -1,0 +1,53 @@
+image: node:latest
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - "node_modules/"
+
+stages:
+  - "build"
+  - "test"
+  - "deploy"
+
+build:
+  stage: build
+  script:
+    - npm install
+  only:
+    - production
+    - develop
+    - merge_requests
+
+mr_test:
+  stage: test
+  script:
+    - npm install
+    - npm start
+  only:
+    - merge_requests
+
+branch_test:
+  stage: test
+  script:
+    - npm install
+    - npm start
+  only:
+    - production
+    - develop
+
+heroku_develop:
+  image: ruby:latest
+  stage: deploy
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_DEVELOP --api-key=$HEROKU_API_KEY_DEVELOP
+  only:
+    - develop
+
+heroku_production:
+  image: ruby:latest
+  stage: deploy
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP_NAME_PRODUCTION --api-key=$HEROKU_API_KEY_PRODUCTION
+  only:
+    - production
