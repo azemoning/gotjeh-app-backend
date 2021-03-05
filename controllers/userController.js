@@ -7,8 +7,8 @@ const nodemailer = require('nodemailer')
 const mailTransporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'gotjeh.app@gmail.com',
-    pass: 'Bijikuda'
+    user: process.env.TRANSPORTER_EMAIL,
+    pass: process.env.TRANSPORTER_PASS
   }
 })
 class UserController extends BaseController {
