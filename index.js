@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", require("./routers/indexRoute"));
 app.use("/api/auth", require("./routers/authRoute"));
-app.use("/api/user", require("./routers/userRoute"));
+app.use("/api/users", require("./routers/userRoute"));
 app.use("/api/jobs", require("./routers/jobsRoute"));
 app.use("/api/subscriptions", require("./routers/subscriptionsRoute"));
 app.use("/api/categories", require("./routers/categoriesRoute"));
