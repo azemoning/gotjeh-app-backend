@@ -8,18 +8,31 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING(22),
       },
-      name: {
+      requester_name: {
         type: Sequelize.STRING(50),
+      },
+      requester_email: {
+        type: Sequelize.STRING(50),
+      },
+      job_name: {
+        type: Sequelize.STRING(50),
+        defaultValue: "job title",
       },
       thumbnail: {
         type: Sequelize.STRING(255),
-        defaultValue: "thumbnail.jpg",
+        defaultValue: "picture.jpg",
       },
-      status: {
-        type: Sequelize.STRING(6),
+      fee: {
+        type: Sequelize.STRING(7),
+        defaultValue: "0",
       },
       content: {
         type: Sequelize.STRING,
+        defaultValue: "job description",
+      },
+      is_approved: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       category_id: {
         type: Sequelize.STRING(22),
