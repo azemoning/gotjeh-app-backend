@@ -17,7 +17,13 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   const result = await user.login(email, password);
-  res.send(result);
+  if (!result) {
+    res.status(404).json({ "error": "User not found" })
+  } else if (result === "wrong password") {
+    res.status(401).json({ "error": "Invalid password" })
+  } else {
+    res.send(result)
+  }
 });
 
 module.exports = app;
