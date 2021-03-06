@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Jobs.hasOne(models.Categories, { as: "category_id", foreignKey: "id" })
     }
   };
   Jobs.init({

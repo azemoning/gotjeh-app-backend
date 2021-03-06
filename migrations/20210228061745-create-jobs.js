@@ -8,18 +8,25 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING(22),
       },
-      name: {
+      requester_name: {
+        type: Sequelize.STRING(50),
+      },
+      job_name: {
         type: Sequelize.STRING(50),
       },
       thumbnail: {
         type: Sequelize.STRING(255),
-        defaultValue: "thumbnail.jpg",
+        defaultValue: "picture.jpg",
       },
-      status: {
-        type: Sequelize.STRING(6),
+      fee: {
+        type: Sequelize.STRING(7),
       },
       content: {
         type: Sequelize.STRING,
+      },
+      is_approved: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       category_id: {
         type: Sequelize.STRING(22),
