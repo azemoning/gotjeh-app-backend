@@ -18,9 +18,9 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: "picture.jpg",
       },
-      role: {
-        type: Sequelize.ENUM('user', 'admin'),
-        defaultValue: 'user',
+      is_admin: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
         allowNull: false,
       },
       email: {

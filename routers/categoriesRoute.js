@@ -1,6 +1,7 @@
 const express = require("express");
 const CategoryController = require("../controllers/categoriesController");
 const category = new CategoryController();
+const { Categories } = require('../models')
 const app = express.Router();
 
 app.get("/", async (req, res, next) => {
@@ -8,9 +9,9 @@ app.get("/", async (req, res, next) => {
   res.send(result);
 });
 
-app.get("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const result = await category.get({ id }).catch(next);
+app.get("/:name", async (req, res, next) => {
+  const { name } = req.params
+  const result = await category.getCategoryByName(name, Categories).catch(next);
   res.send(result);
 });
 
@@ -30,5 +31,7 @@ app.delete("/:id", async (req, res, next) => {
   await category.remove(id).catch(next);
   res.send("Delete success!");
 });
+
+
 
 module.exports = app;
