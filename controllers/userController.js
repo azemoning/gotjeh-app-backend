@@ -53,6 +53,26 @@ class UserController extends BaseController {
     }
   }
 
+  async promoteUserToAdmin(id, model) {
+    const user = await model.findOne({
+      where: {
+        id: id
+      }
+    })
+
+    if (!user) {
+      return false
+    } else {
+      return model.update({
+        is_admin: true
+      }, {
+        where: {
+          id: id
+        }
+      })
+    }
+  }
+
   getAllUsers(model) {
     return model.findAll({
       attributes: [
@@ -60,7 +80,7 @@ class UserController extends BaseController {
         'firstname',
         'lastname',
         'picture',
-        'role',
+        'is_admin',
         'email'
       ]
     })
@@ -73,7 +93,7 @@ class UserController extends BaseController {
         'firstname',
         'lastname',
         'picture',
-        'role',
+        'is_admin',
         'email'
       ],
       where: {
@@ -90,7 +110,7 @@ class UserController extends BaseController {
         'firstname',
         'lastname',
         'picture',
-        'role',
+        'is_admin',
         'email'
       ],
       where: {
