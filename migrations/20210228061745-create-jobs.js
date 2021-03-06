@@ -11,8 +11,12 @@ module.exports = {
       requester_name: {
         type: Sequelize.STRING(50),
       },
+      requester_email: {
+        type: Sequelize.STRING(50),
+      },
       job_name: {
         type: Sequelize.STRING(50),
+        defaultValue: "job title",
       },
       thumbnail: {
         type: Sequelize.STRING(255),
@@ -20,9 +24,11 @@ module.exports = {
       },
       fee: {
         type: Sequelize.STRING(7),
+        defaultValue: "0",
       },
       content: {
         type: Sequelize.STRING,
+        defaultValue: "job description",
       },
       is_approved: {
         type: Sequelize.BOOLEAN,

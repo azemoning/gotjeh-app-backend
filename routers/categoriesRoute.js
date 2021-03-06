@@ -9,9 +9,9 @@ app.get("/", async (req, res, next) => {
   res.send(result);
 });
 
-app.get("/:name", async (req, res, next) => {
-  const { name } = req.params
-  const result = await category.getCategoryByName(name, Categories).catch(next);
+app.get("/:id", async (req, res, next) => {
+  const { id } = req.params
+  const result = await category.edit(id).catch(next);
   res.send(result);
 });
 
