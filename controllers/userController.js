@@ -37,15 +37,19 @@ class UserController extends BaseController {
     const user = await Users.findOne({
       where: { email },
     });
-    if (await bcrypt.compare(password, user.password)) {
-      const payload = {
-        id: user.id,
-        email: user.email,
-        token: jwt.sign({ id: user.id }, process.env.JWT_SECRET),
-      };
-      return payload;
+    if (!user) {
+      return false
     } else {
-      return "wrong password!";
+      if (await bcrypt.compare(password, user.password)) {
+        const payload = {
+          id: user.id,
+          email: user.email,
+          token: jwt.sign({ id: user.id }, process.env.JWT_SECRET),
+        };
+        return payload;
+      } else {
+        return "wrong password";
+      }
     }
   }
 
