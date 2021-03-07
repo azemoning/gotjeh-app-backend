@@ -2,43 +2,19 @@ const express = require("express");
 const JobController = require("../controllers/jobsController");
 const job = new JobController();
 const { Jobs } = require('../models')
+const isExist = require('../middlewares/isExist')
 const app = express.Router();
 
-app.get("/", async (req, res, next) => {
-  const result = await job.get().catch(next);
-  res.send(result);
-});
+app.route('/')
+  .get(job.getAllJobs())
+  .post(job.addNewJob());
 
-app.get("/approved", async (req, res, next) => {
-  const result = await job.getApprovedJobs(Jobs).catch(next);
-  res.send(result);
-});
+app.route('/:id')
+  .get(isExist(Jobs), job.getJobsById())
+  .put(isExist(Jobs), job.updateJob())
+  .delete(isExist(Jobs), job.deleteJob())
 
-app.get("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const result = await job.get({ id }).catch(next);
-  res.send(result);
-});
-
-app.post("/", async (req, res, next) => {
-  const result = await job.add(req.body).catch(next);
-  res.send(result);
-});
-
-app.put("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const result = await job.updateJobInfo(id, req.body, Jobs).catch(next);
-  if (!result) {
-    res.status(404).json({ "error": "Job not found" })
-  } else {
-    res.send(req.body)
-  }
-});
-
-app.delete("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  await job.remove(id).catch(next);
-  res.send("Delete success!");
-});
+app.route('/approved')
+  .get(job.getApprovedJobs())
 
 module.exports = app;

@@ -8,6 +8,7 @@ const app = express.Router();
 app.route('/')
   .get(category.getAllCategories())
   .post(category.addNewCategory());
+
 app.route('/:id')
   .get(isExist(Categories), category.getCategoryById())
   .put(isExist(Categories), category.updateCategory())

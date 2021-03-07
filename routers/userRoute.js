@@ -5,11 +5,18 @@ const { Users } = require('../models')
 const isExist = require('../middlewares/isExist')
 const app = express.Router();
 
-app.get("/", user.getAllUsers());
-app.get("/:id", isExist(Users), user.getUserById());
-app.put("/:id", user.updateUserProfile());
-app.put("/role/promote", isExist(Users), user.promoteUserToAdmin())
-app.post("/reset_password", isExist(Users), user.resetPassword)
-app.delete("/:id", user.deleteUserById());
+app.route('/')
+    .get(user.getAllUsers());
+
+app.route('/:id')
+    .get(isExist(Users), user.getUserById())
+    .put(user.updateUserProfile())
+    .delete(user.deleteUserById())
+
+app.route('/role/promote')
+    .put(isExist(Users), user.promoteUserToAdmin())
+
+app.route('/reset_password')
+    .post(isExist(Users), user.resetPassword)
 
 module.exports = app;
