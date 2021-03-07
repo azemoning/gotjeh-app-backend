@@ -7,28 +7,6 @@ class JobController extends BaseController {
     super(Jobs);
   }
 
-  // approveJob(id, model) {
-  //   const isExist = model.findOne({
-  //     where: {
-  //       id: id
-  //     }
-  //   })
-
-  //   if (!isExist) {
-  //     return false
-  //   } else {
-  //     model.update({
-  //       is_approved: true
-  //     }, {
-  //       where: {
-  //         id: id
-  //       }
-  //     })
-
-  //     return "approved"
-  //   }
-  // }
-
   async updateJobInfo(id, data, model) {
     const isExist = await model.findOne({
       where: {

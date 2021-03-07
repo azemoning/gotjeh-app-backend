@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Enrolled_Courses.hasOne(models.Users, { as: "from", foreignKey: "id" })
-      Enrolled_Courses.hasOne(models.Courses, { as: "from", foreignKey: "id" })
       // define association here
+      Enrolled_Courses.hasOne(models.Users, { as: "User_id", foreignKey: "id" })
+      Enrolled_Courses.hasOne(models.Courses, { as: "Course_id", foreignKey: "id" })
     }
   };
   Enrolled_Courses.init({

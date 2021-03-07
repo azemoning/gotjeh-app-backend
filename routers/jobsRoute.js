@@ -25,16 +25,6 @@ app.post("/", async (req, res, next) => {
   res.send(result);
 });
 
-// app.put("/approve/:id", async (req, res, next) => {
-//   const { id } = req.params;
-//   const result = await job.approveJob(id, Jobs).catch(next);
-//   if (!result) {
-//     res.status(404).json({ "error": "Job not found" })
-//   } else {
-//     res.send(result)
-//   }
-// });
-
 app.put("/:id", async (req, res, next) => {
   const { id } = req.params;
   const result = await job.updateJobInfo(id, req.body, Jobs).catch(next);
