@@ -16,129 +16,135 @@ class UserController extends BaseController {
     super(Users);
   }
 
-  async register(firstname, lastname, email, password) {
-    const encryptedPassword = await bcrypt.hash(password, 5);
-    const id = nanoid();
-    const payload = {
-      id,
-      firstname,
-      lastname,
-      email,
-    };
-    await Users.create({
-      ...payload,
-      password: encryptedPassword,
-    });
-    payload.token = jwt.sign({ id }, process.env.JWT_SECRET);
-    return payload;
+  register() {
+    return async (req, res) => {
+      const { firstname, lastname, email, password } = req.body;
+      const encryptedPassword = await bcrypt.hash(password, 5);
+      const id = nanoid();
+      const payload = {
+        id,
+        firstname,
+        lastname,
+        email,
+      };
+      await Users.create({
+        ...payload,
+        password: encryptedPassword,
+      });
+      payload.token = jwt.sign({ id }, process.env.JWT_SECRET);
+      res.status(201).send(payload)
+    }
   }
 
-  async login(email, password) {
-    const user = await Users.findOne({
-      where: { email },
-    });
-    if (!user) {
-      return false
-    } else {
+  login() {
+    return async (req, res) => {
+      const { email, password } = req.body;
+      const user = await Users.findOne({
+        where: { email },
+      });
+      if (!user) {
+        res.status(404).send({ "error": "User not found" })
+      }
       if (await bcrypt.compare(password, user.password)) {
         const payload = {
           id: user.id,
           email: user.email,
           token: jwt.sign({ id: user.id }, process.env.JWT_SECRET),
         };
-        return payload;
+        res.status(200).send(payload);
       } else {
-        return "wrong password";
+        res.status(401).send({ "error": "Invalid attributes or values for user login" })
       }
     }
   }
 
-  async promoteUserToAdmin(id, model) {
-    const user = await model.findOne({
-      where: {
-        id: id
-      }
-    })
-
-    if (!user) {
-      return false
-    } else {
-      return model.update({
+  promoteUserToAdmin() {
+    return async (req, res) => {
+      const { id } = req.body
+      await model.update({
         is_admin: true
       }, {
         where: {
           id: id
         }
       })
+
+      res.status(200).res.json({ "message": "User promoted to admin" })
     }
   }
 
-  getAllUsers(model) {
-    return model.findAll({
-      attributes: [
-        'id',
-        'firstname',
-        'lastname',
-        'picture',
-        'is_admin',
-        'email'
-      ]
-    })
+  getAllUsers() {
+    return async (req, res) => {
+      const result = Users.findAll({
+        attributes: [
+          'id',
+          'firstname',
+          'lastname',
+          'picture',
+          'is_admin',
+          'email'
+        ]
+      })
+
+      res.status(200).send(result)
+    }
   }
 
-  getUsersById(id, model) {
-    const result = model.findOne({
-      attributes: [
-        'id',
-        'firstname',
-        'lastname',
-        'picture',
-        'is_admin',
-        'email'
-      ],
-      where: {
-        id: id
-      }
-    })
-    return result
-  }
-
-  deleteUserById(id, model) {
-    const result = model.findOne({
-      attributes: [
-        'id',
-        'firstname',
-        'lastname',
-        'picture',
-        'is_admin',
-        'email'
-      ],
-      where: {
-        id: id
-      }
-    })
-
-    if (!result) {
-      return false
-    } else {
-      model.destroy({
+  getUserById() {
+    return async (req, res) => {
+      const { id } = req.params;
+      const result = await Users.findOne({
+        attributes: [
+          'id',
+          'firstname',
+          'lastname',
+          'picture',
+          'is_admin',
+          'email'
+        ],
         where: {
-          id
+          id: id
         }
       })
-      return result
+
+      res.status(200).send(result)
     }
   }
 
-  async updateUserProfile(id, data, model) {
-    const isExist = await model.findOne({
-      where: {
-        id: id
+  deleteUserById() {
+    return async (req, res) => {
+      const { id } = req.params;
+      const result = Users.findOne({
+        attributes: [
+          'id',
+          'firstname',
+          'lastname',
+          'picture',
+          'is_admin',
+          'email'
+        ],
+        where: {
+          id: id
+        }
+      })
+
+      if (!result) {
+        res.status(404).json({ "error": "User not found" })
+      } else {
+        Users.destroy({
+          where: {
+            id
+          }
+        })
+        res.status(200).send(result)
       }
-    })
-    if (!isExist) {
-      return false
-    } else {
+    }
+  }
+
+  updateUserProfile() {
+    return async (req, res) => {
+      const { id } = req.params
+      const data = { ...req.body }
       if (data.password) {
         const encryptedPassword = await bcrypt.hash(data.password, 5)
         const payload = {
@@ -154,31 +160,25 @@ class UserController extends BaseController {
           }
         })
 
-        return payload
+        res.status(200).send(payload)
       } else {
-        await model.update(data, {
+        const result = await model.update(data, {
           where: {
             id: id
           }
         })
 
-        return data
+        res.status(200).send(result)
       }
     }
   }
 
-  async resetUserPassword(email, model) {
-    const emailExist = await model.findOne({
-      where: {
-        email: email
-      }
-    })
-    const newPassword = nanoid(12)
-    const encryptedPassword = await bcrypt.hash(newPassword, 5)
+  resetPassword() {
+    return async (req, res) => {
+      const { email } = req.body
+      const newPassword = nanoid(12)
+      const encryptedPassword = await bcrypt.hash(newPassword, 5)
 
-    if (!emailExist) {
-      return false
-    } else {
       await model.update({
         password: encryptedPassword
       }, {
@@ -200,14 +200,12 @@ class UserController extends BaseController {
       mailTransporter.sendMail(mailOptions, (err, info) => {
         if (err) {
           console.log(err);
-          // return err;
         } else {
           console.log('email sent: ' + info.response);
-          // return 'email sent: ' + info.response
         }
       })
 
-      return "Check your email"
+      res.status(200).send({ "message": "Check your email" })
     }
   }
 }
