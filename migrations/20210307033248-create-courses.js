@@ -12,7 +12,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       thumbnail: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: "picture.jpg"
       },
       description: {
         type: Sequelize.STRING
