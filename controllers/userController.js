@@ -1,4 +1,4 @@
-const { Users } = require("../models");
+const { Users, Enrolled_Courses } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const BaseController = require("./baseController");
@@ -206,6 +206,26 @@ class UserController extends BaseController {
       })
 
       res.status(200).send({ "message": "Check your email" })
+    }
+  }
+
+  getEnrolledCourses() {
+    return async (res, req) => {
+      const { id } = req.user.id
+      const result = await Enrolled_Courses.findAll({
+        where: {
+          user_id: id
+        }
+      })
+
+      res.status(200).send(result)
+    }
+  }
+
+  enrollCourse() {
+    return async (req, res) => {
+      const result = await Enrolled_Courses.create(req.body)
+      res.status(200).send(result)
     }
   }
 }

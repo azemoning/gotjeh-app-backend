@@ -65,7 +65,7 @@ class JobController extends BaseController {
 
   deleteJob() {
     return async (req, res) => {
-      const { id } = req.params
+      const { id} = req.params
       const result = await Jobs.destroy({
         where: {
           id: id
