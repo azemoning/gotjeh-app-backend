@@ -1,61 +1,79 @@
 const { Jobs } = require("../models");
 const BaseController = require("./baseController");
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+const { nanoid } = require("nanoid");
 
 class JobController extends BaseController {
   constructor() {
     super(Jobs);
   }
 
-  // approveJob(id, model) {
-  //   const isExist = model.findOne({
-  //     where: {
-  //       id: id
-  //     }
-  //   })
+  getAllJobs() {
+    return async (req, res) => {
+      const result = await Jobs.findAll()
+      res.status(200).send(result)
+    }
+  }
 
-  //   if (!isExist) {
-  //     return false
-  //   } else {
-  //     model.update({
-  //       is_approved: true
-  //     }, {
-  //       where: {
-  //         id: id
-  //       }
-  //     })
+  getApprovedJobs() {
+    return async (req, res) => {
+      const result = await Jobs.findAll({
+        where: {
+          is_approved: true
+        }
+      })
 
-  //     return "approved"
-  //   }
-  // }
+      res.status(200).send(result)
+    }
+  }
 
-  async updateJobInfo(id, data, model) {
-    const isExist = await model.findOne({
-      where: {
-        id: id
-      }
-    })
-    if (!isExist) {
-      return false
-    } else {
-      if (data.is_approved === "true") {
-        data.is_approved = true
-      }
-      await model.update(data, {
+  getJobsById() {
+    return async (req, res) => {
+      const { id } = req.params
+      const result = await Jobs.findOne({
         where: {
           id: id
         }
       })
-      return "updated"
+
+      res.status(200).send(result)
     }
   }
 
-  getApprovedJobs(model) {
-    return model.findAll({
-      where: {
-        is_approved: true
-      }
-    })
+  addNewJob() {
+    return async (req, res) => {
+      const result = await Jobs.create({
+        id: nanoid(),
+        ...req.body
+      })
+
+      res.status(201).send(result)
+    }
+  }
+
+  updateJob() {
+    return async (req, res) => {
+      const { id } = req.params
+      const result = await Jobs.update(req.body, {
+        where: {
+          id: id
+        }
+      })
+      res.status(200).send(result)
+    }
+  }
+
+  deleteJob() {
+    return async (req, res) => {
+      const { id} = req.params
+      const result = await Jobs.destroy({
+        where: {
+          id: id
+        }
+      })
+
+      res.status(200).send(result)
+    }
   }
 }
 

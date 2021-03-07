@@ -14,6 +14,7 @@ app.use("/api/users", require("./routers/userRoute"));
 app.use("/api/jobs", require("./routers/jobsRoute"));
 app.use("/api/subscriptions", require("./routers/subscriptionsRoute"));
 app.use("/api/categories", require("./routers/categoriesRoute"));
+app.use("/api/courses", require("./routers/courseRoute"))
 
 app.use(function (error, req, res, next) {
   res.send(error);
