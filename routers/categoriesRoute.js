@@ -2,35 +2,16 @@ const express = require("express");
 const CategoryController = require("../controllers/categoriesController");
 const category = new CategoryController();
 const { Categories } = require('../models')
+const isExist = require('../middlewares/isExist')
 const app = express.Router();
 
-app.get("/", async (req, res, next) => {
-  const result = await category.get().catch(next);
-  res.send(result);
-});
-
-app.get("/:id", async (req, res, next) => {
-  const { id } = req.params
-  const result = await category.edit(id).catch(next);
-  res.send(result);
-});
-
-app.post("/", async (req, res, next) => {
-  const result = await category.add(req.body).catch(next);
-  res.send(result);
-});
-
-app.put("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  await category.edit(id, req.body).catch(next);
-  res.send("Update success!");
-});
-
-app.delete("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  await category.remove(id).catch(next);
-  res.send("Delete success!");
-});
+app.route('/')
+  .get(category.getAllCategories())
+  .post(category.addNewCategory());
+app.route('/:id')
+  .get(isExist(Categories), category.getCategoryById())
+  .put(isExist(Categories), category.updateCategory())
+  .delete(isExist(Categories), category.deleteCategory())
 
 
 
