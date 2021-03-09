@@ -20,6 +20,7 @@
   },
   "homepage": "https://gitlab.com/synrgy-mini-project-batch-2/team-e/backend#readme",
   "devDependencies": {
+    "nodemon": "^2.0.7",
     "sequelize-cli": "^6.2.0"
   },
   "dependencies": {
