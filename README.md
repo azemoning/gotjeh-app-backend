@@ -47,6 +47,12 @@ Seed data
 sequelize db:seed:all
 ```
 
+Run this program with
+
+```bash
+npm run dev || npm start
+```
+
 ## GIT Workflow
 
 - Each code repository has 3 main branches that must be protected and can only be pushed directly by the maintainer, the 3 branches are master, develop, production
