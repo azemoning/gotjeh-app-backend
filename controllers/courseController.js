@@ -168,10 +168,13 @@ class CourseController extends BaseController {
 
   searchByCourseTitle() {
     return async (req, res) => {
-      const searchQuery = req.query.value;
+      let { searchCourse } = req.query.value;
+
+      //to lower case
+      searchCourse = searchCourse.toLowerCase;
 
       const fetchedCourse = await Courses.findAll({
-        where: { title: searchQuery },
+        where: { title: searchCourse },
       });
       if (!fetchedCourse) {
         res.status(404).send({ error: "Course not found" });
@@ -183,10 +186,25 @@ class CourseController extends BaseController {
 
   filterByCourseCategory() {
     return async (req, res) => {
-      const filterQuery = req.query.category;
+      const filterCourse = req.query.category;
 
       const fetchedCourse = await Courses.findOne({
-        where: { category: filterQuery },
+        where: { category: filterCourse },
+      });
+      if (!fetchedCourse) {
+        res.status(404).send({ error: "Course not found" });
+      } else {
+        res.status(200).send(fetchedCourse);
+      }
+    };
+  }
+
+  filterByPopularCourse() {
+    return async (req, res) => {
+      const filterCourse = req.query.category;
+
+      const fetchedCourse = await Courses.findAll({
+        where: { category: filterCourse },
       });
       if (!fetchedCourse) {
         res.status(404).send({ error: "Course not found" });

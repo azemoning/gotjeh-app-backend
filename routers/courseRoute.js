@@ -28,8 +28,12 @@ app
   .put(isExist(Course_Contents), course.updateCourseSectionContent())
   .delete(isExist(Course_Contents), course.deleteCourseSectionContent());
 
-app.route("/search").get(isExist(Courses), course.searchByCourseTitle());
+app.route("/search").get(course.searchByCourseTitle());
 
-app.route("/filter").get(isExist(Courses), course.filterByCourseCategory());
+app
+  .route("/filter/:category")
+  .get(isExist(Courses), course.filterByCourseCategory());
+
+app.route("/filter").get(course.filterByPopularCourse());
 
 module.exports = app;
