@@ -81,7 +81,7 @@ class JobController extends BaseController {
       let { searchJob } = req.query;
 
       //to lower case
-      searchJob = searchJob.toLowerCase;
+      searchJob = searchJob.toLowerCase();
 
       const fecthedJob = await Jobs.findAll({
         where: { job_name: searchJob },

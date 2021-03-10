@@ -171,7 +171,7 @@ class CourseController extends BaseController {
       let { searchCourse } = req.query.value;
 
       //to lower case
-      searchCourse = searchCourse.toLowerCase;
+      searchCourse = searchCourse.toLowerCase();
 
       const fetchedCourse = await Courses.findAll({
         where: { title: searchCourse },
