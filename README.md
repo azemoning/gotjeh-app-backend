@@ -47,15 +47,21 @@ Seed data
 sequelize db:seed:all
 ```
 
+Run this program with
+
+```bash
+npm run dev || npm start
+```
+
 ## GIT Workflow
 
 - Each code repository has 3 main branches that must be protected and can only be pushed directly by the maintainer, the 3 branches are master, develop, production
 - Change default branch from code repository to develop
-- Each feature created must use a special branch. branch name for a feature has format feature/{feature-name}
-- Each feature has a flow : feature/{feature-name} MR → develop MR → production MR → master
+- Each feature created must use a special branch. branch name for a feature has format `feature/{feature-name}`
+- Each feature has a flow : `feature/{feature-name}` MR → develop MR → production MR → master
 - Team Role:
-- Maintainer: for students who as tech leads (can be appointed fasil or student voting)
-- Developer: for other students"
+  - Maintainer: for students who as tech leads (can be appointed tutor or student voting)
+  - Developer: for other students"
 
 ## Dependencies
 
@@ -68,6 +74,18 @@ sequelize db:seed:all
 - passport-jwt
 - pg
 - sequelize
+- nodemailer
+
+## Member Team
+
+1. Aditya Desta Pranata
+2. Agis Tri Wahyuji
+3. Ahmad Saufi Maulana
+4. Muhammad Mahdi Dewantoro
+5. Prayogo Dewantoro
+6. Sammy Sena Chow
+7. Winda Kurnia
+8. Zhafran Ammar
 
 ## API Specification
 
