@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Jobs.init({
-    requester_name: DataTypes.STRING,
-    requester_email: DataTypes.STRING,
+    job_email: DataTypes.STRING,
     job_name: DataTypes.STRING,
     thumbnail: DataTypes.STRING,
     fee: DataTypes.STRING,

@@ -1,4 +1,4 @@
-const { Jobs } = require("../models");
+const { Jobs, Categories } = require("../models");
 const BaseController = require("./baseController");
 const { Op } = require("sequelize");
 const { nanoid } = require("nanoid");
@@ -21,6 +21,10 @@ class JobController extends BaseController {
         where: {
           is_approved: true,
         },
+        include: {
+          model: Categories,
+          as: "from"
+        }
       });
 
       res.status(200).send(result);
