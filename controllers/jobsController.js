@@ -20,10 +20,6 @@ class JobController extends BaseController {
       const result = await Jobs.findAll({
         where: {
           is_approved: true,
-        },
-        include: {
-          model: Categories,
-          as: "from"
         }
       });
 
@@ -38,6 +34,11 @@ class JobController extends BaseController {
         where: {
           id: id,
         },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
 
       res.status(200).send(result);
