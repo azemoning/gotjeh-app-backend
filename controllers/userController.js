@@ -75,7 +75,7 @@ class UserController extends BaseController {
 
   getAllUsers() {
     return async (req, res) => {
-      const result = Users.findAll({
+      const result = await Users.findAll({
         attributes: [
           'id',
           'firstname',
