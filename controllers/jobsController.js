@@ -1,4 +1,4 @@
-const { Jobs } = require("../models");
+const { Jobs, Categories } = require("../models");
 const BaseController = require("./baseController");
 const { Op } = require("sequelize");
 const { nanoid } = require("nanoid");
@@ -21,6 +21,11 @@ class JobController extends BaseController {
         where: {
           is_approved: true,
         },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
 
       res.status(200).send(result);
@@ -34,6 +39,11 @@ class JobController extends BaseController {
         where: {
           id: id,
         },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
 
       res.status(200).send(result);
@@ -78,13 +88,22 @@ class JobController extends BaseController {
 
   searchByJobName() {
     return async (req, res) => {
-      let { searchJob } = req.query;
+      let { search } = req.query;
 
       //to lower case
-      searchJob = searchJob.toLowerCase();
+      // searchJob = searchJob.toLowerCase();
 
       const fecthedJob = await Jobs.findAll({
-        where: { job_name: searchJob },
+        where: {
+          job_name: {
+            [Op.iLike]: `%${search}%`
+          }
+        },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
       if (!fecthedJob) {
         res.status(404).send({ error: "Job not found" });
@@ -96,10 +115,15 @@ class JobController extends BaseController {
 
   filterByJobCategory() {
     return async (req, res) => {
-      const filterJob = req.query.category_id;
+      const filterJob = req.query.category;
 
-      const fecthedJob = await Jobs.findOne({
+      const fecthedJob = await Jobs.findAll({
         where: { category_id: filterJob },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
       if (!fecthedJob) {
         res.status(404).send({ error: "Job not found" });

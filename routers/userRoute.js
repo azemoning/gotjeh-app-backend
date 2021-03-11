@@ -8,11 +8,6 @@ const app = express.Router();
 app.route('/')
     .get(user.getAllUsers());
 
-app.route('/:id')
-    .get(isExist(Users), user.getUserById())
-    .put(user.updateUserProfile())
-    .delete(user.deleteUserById())
-
 app.route('/role/promote')
     .put(isExist(Users), user.promoteUserToAdmin())
 
@@ -24,5 +19,10 @@ app.route('/courses')
 
 app.route('/courses/enroll')
     .post(user.enrollCourse())
+
+app.route('/:id')
+    .get(isExist(Users), user.getUserById())
+    .put(user.updateUserProfile())
+    .delete(user.deleteUserById())
 
 module.exports = app;

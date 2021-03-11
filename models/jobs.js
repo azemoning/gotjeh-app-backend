@@ -11,12 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Jobs.hasOne(models.Categories, { as: "from", foreignKey: "id" })
+      Jobs.belongsTo(models.Categories, { as: 'category', foreignKey: 'category_id' })
     }
   };
   Jobs.init({
-    requester_name: DataTypes.STRING,
-    requester_email: DataTypes.STRING,
+    job_email: DataTypes.STRING,
     job_name: DataTypes.STRING,
     thumbnail: DataTypes.STRING,
     fee: DataTypes.STRING,
