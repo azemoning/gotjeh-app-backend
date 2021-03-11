@@ -11,7 +11,7 @@ app.route("/approved").get(job.getApprovedJobs());
 
 app.route("/search").get(job.searchByJobName());
 
-app.route("/filter/:category_id").get(isExist(Jobs), job.filterByJobCategory());
+app.route("/filter").get(job.filterByJobCategory());
 
 app
   .route("/:id")

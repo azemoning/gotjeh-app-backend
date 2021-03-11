@@ -115,10 +115,15 @@ class JobController extends BaseController {
 
   filterByJobCategory() {
     return async (req, res) => {
-      const filterJob = req.query.category_id;
+      const filterJob = req.query.category;
 
-      const fecthedJob = await Jobs.findOne({
+      const fecthedJob = await Jobs.findAll({
         where: { category_id: filterJob },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
       if (!fecthedJob) {
         res.status(404).send({ error: "Job not found" });
