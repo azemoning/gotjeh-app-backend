@@ -20,6 +20,11 @@ class JobController extends BaseController {
       const result = await Jobs.findAll({
         where: {
           is_approved: true,
+        },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
         }
       });
 
@@ -83,13 +88,22 @@ class JobController extends BaseController {
 
   searchByJobName() {
     return async (req, res) => {
-      let { searchJob } = req.query;
+      let { search } = req.query;
 
       //to lower case
-      searchJob = searchJob.toLowerCase();
+      // searchJob = searchJob.toLowerCase();
 
       const fecthedJob = await Jobs.findAll({
-        where: { job_name: searchJob },
+        where: {
+          job_name: {
+            [Op.iLike]: `%${search}%`
+          }
+        },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
       if (!fecthedJob) {
         res.status(404).send({ error: "Job not found" });

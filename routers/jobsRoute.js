@@ -9,14 +9,14 @@ app.route("/").get(job.getAllJobs()).post(job.addNewJob());
 
 app.route("/approved").get(job.getApprovedJobs());
 
+app.route("/search").get(job.searchByJobName());
+
+app.route("/filter/:category_id").get(isExist(Jobs), job.filterByJobCategory());
+
 app
   .route("/:id")
   .get(isExist(Jobs), job.getJobsById())
   .put(isExist(Jobs), job.updateJob())
   .delete(isExist(Jobs), job.deleteJob());
-
-app.route("/search").get(job.searchByJobName());
-
-app.route("/filter/:category_id").get(isExist(Jobs), job.filterByJobCategory());
 
 module.exports = app;
