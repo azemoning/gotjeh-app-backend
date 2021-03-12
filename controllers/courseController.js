@@ -1,5 +1,6 @@
-const { Courses, Course_Sections, Course_Contents } = require("../models");
+const { Courses, Course_Sections, Categories } = require("../models");
 const BaseController = require("../controllers/baseController");
+const { Op } = require("sequelize")
 const { nanoid } = require("nanoid");
 
 class CourseController extends BaseController {
@@ -24,10 +25,7 @@ class CourseController extends BaseController {
         include: {
           model: Course_Sections,
           as: "course_sections",
-          include: {
-            model: Course_Contents,
-            as: "course_contents",
-          },
+          attributes: ['name', 'url']
         },
       });
       res.status(200).send(result);
@@ -38,18 +36,6 @@ class CourseController extends BaseController {
     return async (req, res) => {
       const { id } = req.params;
       const result = await Course_Sections.findAll({
-        where: {
-          id: id,
-        },
-      });
-      res.status(200).send(result);
-    };
-  }
-
-  getCourseSectionContentById() {
-    return async (req, res) => {
-      const { id } = req.params;
-      const result = await Course_Contents.findOne({
         where: {
           id: id,
         },
@@ -78,16 +64,6 @@ class CourseController extends BaseController {
     };
   }
 
-  addNewCourseSectionContent() {
-    return async (req, res) => {
-      const result = await Course_Contents.create({
-        id: nanoid(),
-        ...req.body,
-      });
-      res.status(201).send(result);
-    };
-  }
-
   updateCourse() {
     return async (req, res) => {
       const { id } = req.body;
@@ -105,19 +81,6 @@ class CourseController extends BaseController {
     return async (req, res) => {
       const { id } = req.body;
       const result = await Course_Sections.update(req.body, {
-        where: {
-          id: id,
-        },
-      });
-
-      res.status(200).send(result);
-    };
-  }
-
-  updateCourseSectionContent() {
-    return async (req, res) => {
-      const { id } = req.body;
-      const result = await Course_Contents.update(req.body, {
         where: {
           id: id,
         },
@@ -153,28 +116,21 @@ class CourseController extends BaseController {
     };
   }
 
-  deleteCourseSectionContent() {
-    return async (req, res) => {
-      const { id } = req.params;
-      const result = Course_Contents.destroy({
-        where: {
-          id: id,
-        },
-      });
-
-      res.status(200).send(result);
-    };
-  }
-
   searchByCourseTitle() {
     return async (req, res) => {
-      let { searchCourse } = req.query.value;
-
-      //to lower case
-      searchCourse = searchCourse.toLowerCase();
+      let { search } = req.query;
 
       const fetchedCourse = await Courses.findAll({
-        where: { title: searchCourse },
+        where: {
+          title: {
+            [Op.iLike]: `%${search.toLowerCase()}%`
+          }
+        },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
       if (!fetchedCourse) {
         res.status(404).send({ error: "Course not found" });
@@ -188,8 +144,13 @@ class CourseController extends BaseController {
     return async (req, res) => {
       const filterCourse = req.query.category;
 
-      const fetchedCourse = await Courses.findOne({
-        where: { category: filterCourse },
+      const fetchedCourse = await Courses.findAll({
+        where: { category_id: filterCourse },
+        include: {
+          model: Categories,
+          as: 'category',
+          attributes: ['name']
+        }
       });
       if (!fetchedCourse) {
         res.status(404).send({ error: "Course not found" });
@@ -201,16 +162,10 @@ class CourseController extends BaseController {
 
   filterByPopularCourse() {
     return async (req, res) => {
-      const filterCourse = req.query.category;
-
-      const fetchedCourse = await Courses.findAll({
-        where: { category: filterCourse },
-      });
-      if (!fetchedCourse) {
-        res.status(404).send({ error: "Course not found" });
-      } else {
-        res.status(200).send(fetchedCourse);
-      }
+      const result = await Courses.findAll({
+        limit: 3
+      })
+      res.status(200).send(result)
     };
   }
 }
