@@ -162,16 +162,10 @@ class CourseController extends BaseController {
 
   filterByPopularCourse() {
     return async (req, res) => {
-      const filterCourse = req.query.category;
-
-      const fetchedCourse = await Courses.findAll({
-        where: { category: filterCourse },
-      });
-      if (!fetchedCourse) {
-        res.status(404).send({ error: "Course not found" });
-      } else {
-        res.status(200).send(fetchedCourse);
-      }
+      const result = await Courses.findAll({
+        limit: 3
+      })
+      res.status(200).send(result)
     };
   }
 }
