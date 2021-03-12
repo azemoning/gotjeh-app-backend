@@ -90,13 +90,10 @@ class JobController extends BaseController {
     return async (req, res) => {
       let { search } = req.query;
 
-      //to lower case
-      // searchJob = searchJob.toLowerCase();
-
       const fecthedJob = await Jobs.findAll({
         where: {
           job_name: {
-            [Op.iLike]: `%${search}%`
+            [Op.iLike]: `%${search.toLowerCase()}%`
           }
         },
         include: {

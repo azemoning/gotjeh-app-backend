@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Course_Sections.hasOne(models.Courses, { as: "from", foreignKey: "id" })
-      Course_Sections.hasMany(models.Course_Contents, { as: "course_contents", foreignKey: "course_section_id" })
     }
   };
   Course_Sections.init({
     course_id: DataTypes.STRING,
-    name: DataTypes.STRING
+    name: DataTypes.STRING,
+    url: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Course_Sections',
