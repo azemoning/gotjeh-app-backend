@@ -52,9 +52,20 @@ class JobController extends BaseController {
 
   addNewJob() {
     return async (req, res) => {
+      const {
+        requester_name,
+        requester_email,
+        content,
+        fee,
+        category_id
+      } = req.body
       const result = await Jobs.create({
         id: nanoid(),
-        ...req.body,
+        job_name: requester_name,
+        job_email: requester_email,
+        fee: fee,
+        content: content,
+        category_id: category_id
       });
 
       res.status(201).send(result);
