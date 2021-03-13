@@ -24,8 +24,7 @@ class CourseController extends BaseController {
         },
         include: {
           model: Course_Sections,
-          as: "course_sections",
-          attributes: ['name', 'url']
+          as: "course_sections"
         },
       });
       res.status(200).send(result);
