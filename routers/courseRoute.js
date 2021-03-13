@@ -24,7 +24,7 @@ app.route("/popular").get(course.filterByPopularCourse());
 
 app
   .route("/:id")
-  // .get(isExist(Courses), course.getCourseById())
+  .get(isExist(Courses), course.getCourseById())
   .put(isExist(Courses), course.updateCourse())
   .delete(isExist(Courses), course.deleteCourse());
 
