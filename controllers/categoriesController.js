@@ -54,13 +54,13 @@ class CategoryController extends BaseController {
   deleteCategory() {
     return async (req, res) => {
       const { id } = req.params
-      const result = await Categories.destroy({
+      await Categories.destroy({
         where: {
           id: id
         }
       })
 
-      res.status(200).send(result)
+      res.status(200).json({ "message": "Category deleted" })
     }
   }
 }
