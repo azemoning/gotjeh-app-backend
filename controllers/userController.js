@@ -18,21 +18,28 @@ class UserController extends BaseController {
 
   register() {
     return async (req, res) => {
-      const { firstname, lastname, email, password } = req.body;
-      const encryptedPassword = await bcrypt.hash(password, 5);
-      const id = nanoid();
-      const payload = {
-        id,
-        firstname,
-        lastname,
-        email,
-      };
-      await Users.create({
-        ...payload,
-        password: encryptedPassword,
-      });
-      payload.token = jwt.sign({ id }, process.env.JWT_SECRET);
-      res.status(201).send(payload)
+      try {
+        const { firstname, lastname, email, password } = req.body;
+        const encryptedPassword = await bcrypt.hash(password, 5);
+        const id = nanoid();
+        const payload = {
+          id,
+          firstname,
+          lastname,
+          email,
+        };
+        await Users.create({
+          ...payload,
+          password: encryptedPassword,
+        });
+        payload.token = jwt.sign({ id }, process.env.JWT_SECRET);
+        res.status(201).send(payload)
+      } catch (error) {
+        res.status(401).json({
+          "status": 401,
+          "error": "User already exist"
+        })
+      }
     }
   }
 
