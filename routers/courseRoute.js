@@ -6,7 +6,7 @@ const restrict = passport.authenticate('jwt', { session: false })
 
 app.route("/").get(course.getAllCourses()).post(course.addNewCourse());
 app.route("/search").get(course.searchByCourseTitle());
-app.route(restrict, "/enrolled").get(course.getEnrolledCourses())
+app.route("/enrolled").get(restrict, course.getEnrolledCourses())
 app
   .route("/filter")
   .get(course.filterByCourseCategory());
