@@ -175,7 +175,11 @@ class CourseController extends BaseController {
         where: query,
         include: {
           model: Courses,
-          as: 'course_details'
+          as: 'course_details',
+          include: {
+            model: Categories,
+            as: 'category'
+          }
         }
       })
       res.status(200).send(result)
