@@ -24,7 +24,7 @@ app.route('/courses/:id')
     .get(user.getEnrolledCourses())
 
 app.route('/:id')
-    .get(isExist(Users), user.getUserById())
+    .get(user.getUserById())
     .put(user.updateUserProfile())
     .delete(user.deleteUserById())
 
