@@ -1,6 +1,6 @@
 function isExist(model) {
     return async (req, res, next) => {
-        const { id } = req.params
+        const { id } = req.body
         const isExist = await model.findOne({
             where: {
                 id: id
