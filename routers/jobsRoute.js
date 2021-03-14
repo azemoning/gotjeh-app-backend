@@ -15,8 +15,8 @@ app.route("/filter").get(job.filterByJobCategory());
 
 app
   .route("/:id")
-  .get(isExist(Jobs), job.getJobsById())
-  .put(isExist(Jobs), job.updateJob())
-  .delete(isExist(Jobs), job.deleteJob());
+  .get(job.getJobsById())
+  .put(job.updateJob())
+  .delete(job.deleteJob());
 
 module.exports = app;
