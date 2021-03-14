@@ -74,7 +74,8 @@ class UserController extends BaseController {
   promoteUserToAdmin() {
     return async (req, res) => {
       const { id } = req.body
-      await model.update({
+      console.log('harusnya disini:', id);
+      await Users.update({
         is_admin: true
       }, {
         where: {
@@ -82,7 +83,7 @@ class UserController extends BaseController {
         }
       })
 
-      res.status(200).res.json({ "message": "User promoted to admin" })
+      res.status(200).json({ "message": "User promoted to admin" })
     }
   }
 
@@ -164,7 +165,7 @@ class UserController extends BaseController {
           firstname: data.firstname,
           lastname: data.lastname,
         }
-        await model.update({
+        await Users.update({
           ...payload,
           password: encryptedPassword
         }, {
@@ -175,7 +176,7 @@ class UserController extends BaseController {
 
         res.status(200).send(payload)
       } else {
-        const result = await model.update(data, {
+        const result = await Users.update(data, {
           where: {
             id: id
           }
@@ -192,7 +193,7 @@ class UserController extends BaseController {
       const newPassword = nanoid(12)
       const encryptedPassword = await bcrypt.hash(newPassword, 5)
 
-      await model.update({
+      await Users.update({
         password: encryptedPassword
       }, {
         where: {

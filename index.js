@@ -1,8 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const passport = require("passport");
 const app = express();
-const restrict = passport.authenticate("jwt", { session: false });
 const port = process.env.PORT;
 
 app.use(express.json());
