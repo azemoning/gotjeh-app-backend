@@ -14,11 +14,11 @@ app.route('/role/promote')
 app.route('/reset_password')
     .post(isExist(Users), user.resetPassword)
 
-app.route('/courses')
-    .get(user.getEnrolledCourses())
-
 app.route('/courses/enroll')
     .post(user.enrollCourse())
+
+app.route('/courses/:id')
+    .get(user.getEnrolledCourses())
 
 app.route('/:id')
     .get(isExist(Users), user.getUserById())
