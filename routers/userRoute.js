@@ -18,10 +18,10 @@ app.route('/reset_password')
     .post(isExist(Users), user.resetPassword)
 
 app.route('/courses/enroll')
-    .post(user.enrollCourse())
+    .post(restrict, user.enrollCourse())
 
 app.route('/courses/:id')
-    .get(user.getEnrolledCourses())
+    .get(restrict, user.getEnrolledCourses())
 
 app.route('/:id')
     .get(user.getUserById())
