@@ -6,6 +6,7 @@ const course = new CourseController();
 
 app.route("/").get(course.getAllCourses()).post(course.addNewCourse());
 app.route("/search").get(course.searchByCourseTitle());
+app.route("/enrolled").get(course.getEnrolledCourses())
 app
   .route("/filter")
   .get(course.filterByCourseCategory());

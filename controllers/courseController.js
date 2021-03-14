@@ -1,4 +1,4 @@
-const { Courses, Course_Sections, Categories } = require("../models");
+const { Courses, Course_Sections, Categories, Enrolled_Courses } = require("../models");
 const BaseController = require("../controllers/baseController");
 const { Op } = require("sequelize")
 const { nanoid } = require("nanoid");
@@ -166,6 +166,20 @@ class CourseController extends BaseController {
       })
       res.status(200).send(result)
     };
+  }
+
+  getEnrolledCourses() {
+    return async (req, res) => {
+      const query = req.params
+      const result = await Enrolled_Courses.findAll({
+        where: query,
+        include: {
+          model: Courses,
+          as: 'course_details'
+        }
+      })
+      res.status(200).send(result)
+    }
   }
 }
 module.exports = CourseController;

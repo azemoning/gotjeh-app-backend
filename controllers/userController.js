@@ -121,7 +121,7 @@ class UserController extends BaseController {
   deleteUserById() {
     return async (req, res) => {
       const { id } = req.params;
-      const result = Users.findOne({
+      const result = await Users.findOne({
         attributes: [
           'id',
           'firstname',
@@ -218,7 +218,7 @@ class UserController extends BaseController {
 
   getEnrolledCourses() {
     return async (res, req) => {
-      const { id } = req.user.id
+      const { id } = req.params
       const result = await Enrolled_Courses.findAll({
         where: {
           user_id: id
@@ -231,8 +231,11 @@ class UserController extends BaseController {
 
   enrollCourse() {
     return async (req, res) => {
-      const result = await Enrolled_Courses.create(req.body)
-      res.status(200).send(result)
+      const result = await Enrolled_Courses.create({
+        id: nanoid(),
+        ...req.body
+      })
+      res.status(201).send(result)
     }
   }
 }
