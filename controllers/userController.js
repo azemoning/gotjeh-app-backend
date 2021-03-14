@@ -36,7 +36,7 @@ class UserController extends BaseController {
         res.status(201).send(payload)
       } catch (error) {
         res.status(401).json({
-          "status": 401,
+          "code": 401,
           "error": "User already exist"
         })
       }
@@ -50,7 +50,10 @@ class UserController extends BaseController {
         where: { email },
       });
       if (!user) {
-        res.status(404).send({ "error": "User not found" })
+        res.status(404).send({
+          "code": 404,
+          "error": "User not found"
+        })
       }
       if (await bcrypt.compare(password, user.password)) {
         const payload = {
@@ -60,7 +63,10 @@ class UserController extends BaseController {
         };
         res.status(200).send(payload);
       } else {
-        res.status(401).send({ "error": "Invalid attributes or values for user login" })
+        res.status(401).send({
+          "code": 401,
+          "error": "Invalid password"
+        })
       }
     }
   }
